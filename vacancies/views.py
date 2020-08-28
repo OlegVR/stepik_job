@@ -7,15 +7,22 @@ from vacancies.models import Specialty, Vacancy, Company
 
 class MainView(View):
     def get(self, request):
-        specialy = Specialty.objects.all()
+        specialty = Specialty.objects.all()
         company = Company.objects.all()
-        context = {"specialty": specialy, "company": company}
+        context = {"specialty": specialty, "company": company}
 
         return render(request, 'index.html', context=context)
 
 
+class VacanciesViewAll(View):
+    def get(self, request):
+        vacancies_all = Vacancy.objects.all()
+        context = {'vacancies': vacancies_all}
+        return render(request, 'vacanvies_all.html', context=context)
+
+
 class VacanciesView(View):
-    def get(self, request, id=0):
+    def get(self, request, id):
         vacancies_all = Vacancy.objects.all()
 
         if id:
