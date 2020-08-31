@@ -18,31 +18,20 @@ class VacanciesViewAll(View):
     def get(self, request):
         vacancies_all = Vacancy.objects.all()
         context = {'vacancies': vacancies_all}
-        return render(request, 'vacanvies_all.html', context=context)
+        return render(request, 'vacancies_all.html', context=context)
 
 
 class VacanciesView(View):
     def get(self, request, id):
-        vacancies_all = Vacancy.objects.all()
-
-        if id:
-            vacancies = vacancies_all.filter(id=id)
-
-            if len(vacancies) > 0:
-                vacancies = vacancies[0]
-                company = vacancies.company
-                logo = company.logo
-                context = {'vacancy': vacancies, 'logo': logo}
-
-                return render(request, 'vacancy.html', context=context)
-
-            else:
-                raise Http404
+        vacancies= Vacancy.objects.filter(id=id).first()
+        if vacancies:
+            company = vacancies.company
+            logo = company.logo
+            context = {'vacancy': vacancies, 'logo': logo}
+            return render(request, 'vacancy.html', context=context)
 
         else:
-            context = {'vacancies': vacancies_all}
-
-            return render(request, 'vacancies_all.html', context=context)
+            raise Http404
 
 
 class CategoryVacanciesView(View):
