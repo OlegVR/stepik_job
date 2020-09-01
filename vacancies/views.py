@@ -49,20 +49,14 @@ class CategoryVacanciesView(View):
 
 
 class CompaniesView(View):
-    def get(self, request, id=0):
-        companies_all = Company.objects.all()
+    def get(self, request, id):
+        company = Company.objects.filter(id=id).first()
 
-        if id:
-            id_companies = companies_all.filter(id=id)
+        if company:
+            vacancies_company = company.vacancies.all()
+            context = {'company': company, 'vacancies': vacancies_company}
 
-            if len(id_companies) > 0:
-                vacancies_company = Vacancy.objects.filter(company__id=id)
-                context = {'company': id_companies[0], 'vacancies': vacancies_company}
-
-                return render(request, 'company.html', context=context)
-
-            else:
-                raise Http404
+            return render(request, 'company.html', context=context)
 
         else:
             raise Http404
