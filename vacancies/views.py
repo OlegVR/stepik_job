@@ -36,10 +36,11 @@ class VacanciesView(View):
 
 class CategoryVacanciesView(View):
     def get(self, request, category):
-        vacancies = Vacancy.objects.filter(specialty__code=category)
-        cat_vacancies = Specialty.objects.filter(code=category)
-        if len(vacancies) > 0 or len(cat_vacancies) > 0:
-            context = {'categories': vacancies, 'category_name': cat_vacancies[0].title}
+        speciality= Specialty.objects.filter(code=category).first()
+
+        if speciality:
+            vacancies = speciality.vacancies.all()
+            context = {'vacancies': vacancies, 'category_name': speciality.title}
 
             return render(request, 'vacancies.html', context=context)
 
