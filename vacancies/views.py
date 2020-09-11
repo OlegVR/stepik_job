@@ -60,3 +60,9 @@ class CompaniesView(View):
 
         else:
             raise Http404
+
+
+class RegisterView(View):
+    def get(self, request):
+
+        return render(request, 'login.html')

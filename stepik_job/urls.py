@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from vacancies.views import MainView, VacanciesView, CategoryVacanciesView, CompaniesView, VacanciesViewAll
+from vacancies.views import MainView, VacanciesView, CategoryVacanciesView, CompaniesView, VacanciesViewAll, \
+    RegisterView
 
 urlpatterns = [
     path('vacancies/', VacanciesViewAll.as_view()),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('companies/<int:id>', CompaniesView.as_view()),
     path('', MainView.as_view()),
     path('admin/', admin.site.urls),
+    path('login/', RegisterView.as_view()),
 ]
