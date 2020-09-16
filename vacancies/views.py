@@ -65,4 +65,40 @@ class CompaniesView(View):
 class RegisterView(View):
     def get(self, request):
 
+        return render(request, 'register.html')
+
+
+class LoginView(View):
+    def get(self, request):
+
         return render(request, 'login.html')
+
+
+class LogoutView(View):
+    def get(self, request):
+
+        return render(request, 'index.html')
+
+
+class VacancySendView(View):
+    def get(self, request, id):
+
+        return render(request, 'sent.html')
+
+
+class MyCompanyView(View):
+    def get(self, request):
+
+        return render(request, 'company-edit.html')
+
+
+class MyCompanyVacanciesView(View):
+    def get(self, request):
+
+        return render(request, 'vacancy-list.html')
+
+
+class MyCompanyVacancyView(View):
+    def get(self, request, id):
+
+        return render(request, 'vacancy-edit.html')
