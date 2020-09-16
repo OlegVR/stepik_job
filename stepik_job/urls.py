@@ -22,12 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', MainView.as_view()),
     path('vacancies/', VacanciesViewAll.as_view()),
     path('vacancies/<int:id>', VacanciesView.as_view()),
     path('vacancies/cat/<str:category>', CategoryVacanciesView.as_view()),
     path('companies/<int:id>', CompaniesView.as_view()),
-    path('', MainView.as_view()),
-    path('admin/', admin.site.urls),
     path('login/', RegisterView.as_view()),
 ]
 
