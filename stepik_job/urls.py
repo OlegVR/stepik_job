@@ -29,7 +29,7 @@ urlpatterns = [
     path('vacancies/<int:id>/send', VacancySendView.as_view()),
     path('vacancies/cat/<str:category>', CategoryVacanciesView.as_view()),
     path('companies/<int:id>', CompaniesView.as_view()),
-    path('mycompany', MyCompanyView.as_view()),
+    path('mycompany/', MyCompanyView.as_view()),
     path('mycompany/vacancies', MyCompanyVacanciesView.as_view()),
     path('mycompany/vacancies/<int:id>', MyCompanyVacancyView.as_view()),
     path('login/', LoginView.as_view()),

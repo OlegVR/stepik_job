@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
 from django.views import View
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from vacancies.models import Specialty, Vacancy, Company
 
 
 class MainView(View):
+
     def get(self, request):
         specialty = Specialty.objects.all()
         company = Company.objects.all()
@@ -15,6 +16,7 @@ class MainView(View):
 
 
 class VacanciesViewAll(View):
+
     def get(self, request):
         vacancies_all = Vacancy.objects.all()
         context = {'vacancies': vacancies_all}
@@ -22,6 +24,7 @@ class VacanciesViewAll(View):
 
 
 class VacanciesView(View):
+
     def get(self, request, id):
         vacancies= Vacancy.objects.filter(id=id).first()
         if vacancies:
@@ -35,6 +38,7 @@ class VacanciesView(View):
 
 
 class CategoryVacanciesView(View):
+
     def get(self, request, category):
         speciality= Specialty.objects.filter(code=category).first()
 
@@ -49,6 +53,7 @@ class CategoryVacanciesView(View):
 
 
 class CompaniesView(View):
+
     def get(self, request, id):
         company = Company.objects.filter(id=id).first()
 
@@ -63,42 +68,64 @@ class CompaniesView(View):
 
 
 class RegisterView(View):
-    def get(self, request):
+    '''Переходим из /login '''
 
+    def get(self, request):
         return render(request, 'register.html')
 
+    def post(self, request):
+        # register_form = форме с аргументами request.POST
+        # register_form.isvalid
+        f = UserF
+        return HttpResponse('ok')
 
 class LoginView(View):
+    '''При нажатии на «вход» мы переходим на /login, откуда можем перейти на /register'''
+
     def get(self, request):
 
         return render(request, 'login.html')
 
 
 class LogoutView(View):
+
     def get(self, request):
 
         return render(request, 'index.html')
 
 
 class VacancySendView(View):
+
     def get(self, request, id):
 
         return render(request, 'sent.html')
 
 
 class MyCompanyView(View):
+    ''' Раздел компании Попасть в него можно через выпадающее меню.
+        Если у пользователя еще нет компании, ему предлагается создать ее.
+        Если  есть – он сразу же переходит к его редактированию!'''
+
     def get(self, request):
 
-        return render(request, 'company-edit.html')
+        return render(request, 'company-create.html')
 
 
 class MyCompanyVacanciesView(View):
+
+    '''Раздел вакансии
+       Из карточки компании через левое меню можно перейти к вакансиям.
+       Если у пользователя еще нет вакансий, ему предлагается создать их.
+       Если вакансии есть – они выводятся в списке, из которого можно перейти на карточку вакансии'''
+
     def get(self, request):
 
         return render(request, 'vacancy-list.html')
 
 
 class MyCompanyVacancyView(View):
+    '''На карточке вакансии можно отредактировать ее.'''
+
     def get(self, request, id):
 
         return render(request, 'vacancy-edit.html')
