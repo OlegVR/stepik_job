@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from django.views import View
 from django.http import Http404, HttpResponse
-from vacancies.models import Specialty, Vacancy, Company
+from django.views.generic import CreateView
+
+from vacancies.forms import UserRegistrationForm, UserLogInForm
+from vacancies.models import Specialty, Vacancy, Company, User
 
 
 class MainView(View):
@@ -67,24 +71,41 @@ class CompaniesView(View):
             raise Http404
 
 
-class RegisterView(View):
+class RegisterView(CreateView):
     '''Переходим из /login '''
 
     def get(self, request):
-        return render(request, 'register.html')
+        form = UserRegistrationForm()
+        return render(request, 'register.html', {'form': form})
 
     def post(self, request):
-        # register_form = форме с аргументами request.POST
-        # register_form.isvalid
-        f = UserF
-        return HttpResponse('ok')
+        register_form = UserRegistrationForm(request.POST)
+        if register_form.is_valid():
+            data = register_form.cleaned_data
+            user = User.objects.create_user(first_name=data['name'], username=data['login'],
+                                            last_name=data['surname'], password=data['password'])
+            user.save()
+            return redirect('/')
+        else:
+            return HttpResponse("Некорректно заполнена форма регистрации")
+
 
 class LoginView(View):
     '''При нажатии на «вход» мы переходим на /login, откуда можем перейти на /register'''
 
     def get(self, request):
+        form = UserLogInForm()
+        return render(request, 'login.html', {'form': form})
 
-        return render(request, 'login.html')
+    def post(self, request):
+        login_form = UserLogInForm(request.POST)
+        if login_form.is_valid():
+            user_query = login_form.cleaned_data
+            user = User.objects.filter(username=user_query['login'], password=user_query['password']).first()
+            if user:
+                return redirect('/mycompany/')
+        return redirect('/')
+
 
 
 class LogoutView(View):
