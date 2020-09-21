@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -74,10 +74,6 @@ class CompaniesView(View):
 
 
 class RegisterView(CreateView):
-#    model = User
-#    form_class = UserRegistrationForm
-#    success_url = 'login'
-#    template_name = 'register.html'
 
     def get(self, request):
         form = UserRegistrationForm()
@@ -120,7 +116,7 @@ class MyLoginView(LoginView):
 class LogoutView(View):
 
     def get(self, request):
-
+        logout(request)
         return render(request, 'index.html')
 
 
