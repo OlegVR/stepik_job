@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -72,7 +74,10 @@ class CompaniesView(View):
 
 
 class RegisterView(CreateView):
-    '''Переходим из /login '''
+#    model = User
+#    form_class = UserRegistrationForm
+#    success_url = 'login'
+#    template_name = 'register.html'
 
     def get(self, request):
         form = UserRegistrationForm()
@@ -90,21 +95,25 @@ class RegisterView(CreateView):
             return HttpResponse("Некорректно заполнена форма регистрации")
 
 
-class LoginView(View):
-    '''При нажатии на «вход» мы переходим на /login, откуда можем перейти на /register'''
+class MyLoginView(LoginView):
 
     def get(self, request):
-        form = UserLogInForm()
-        return render(request, 'login.html', {'form': form})
+       form = UserLogInForm()
+       return render(request, 'login.html', {'form': form})
+
 
     def post(self, request):
         login_form = UserLogInForm(request.POST)
         if login_form.is_valid():
-            user_query = login_form.cleaned_data
-            user = User.objects.filter(username=user_query['login'], password=user_query['password']).first()
-            if user:
+            username = request.POST['login']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
                 return redirect('/mycompany/')
-        return redirect('/')
+            else:
+                return HttpResponse('Неверный логин или пароль')
+
 
 
 

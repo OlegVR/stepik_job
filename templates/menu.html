@@ -12,7 +12,7 @@
             <a class="nav-link" href="/vacancies/">Вакансии</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/mycompany/">Компании</a>
+            <a class="nav-link" href="#">Компании</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">О проекте</a>
@@ -20,7 +20,8 @@
         </ul>
         <ul class="navbar-nav col-2 justify-content-end">
           <li class="nav-item active">
-            <a href="/login/" class="nav-link font-weight-bold">Вход</a>
+            <a href="{% url 'login' %}" class="nav-link font-weight-bold">{% if user.is_authenticated %}Привет {{ user.get_full_name }}
+            {% else %}Вход{% endif %}</a>
           </li>
         </ul>
       </div>

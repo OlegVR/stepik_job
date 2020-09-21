@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from vacancies.views import MainView, VacanciesView, CategoryVacanciesView, CompaniesView, VacanciesViewAll, \
-    RegisterView, LoginView, VacancySendView, MyCompanyView, MyCompanyVacanciesView, MyCompanyVacancyView, LogoutView
+    RegisterView, VacancySendView, MyCompanyView, MyCompanyVacanciesView, MyCompanyVacancyView, LogoutView, MyLoginView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -32,9 +32,9 @@ urlpatterns = [
     path('mycompany/', MyCompanyView.as_view()),
     path('mycompany/vacancies', MyCompanyVacanciesView.as_view()),
     path('mycompany/vacancies/<int:id>', MyCompanyVacancyView.as_view()),
-    path('login/', LoginView.as_view()),
+    path('login/', MyLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view()),
-    path('register/', RegisterView.as_view()),
+    path('register/', RegisterView.as_view(), name='register'),
 ]
 
 if settings.DEBUG:
