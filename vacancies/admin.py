@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Company, Specialty
+from .models import Company, Specialty, User
+
 
 
 class CompanyAdmin(admin.ModelAdmin):

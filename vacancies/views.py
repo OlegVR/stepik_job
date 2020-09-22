@@ -97,7 +97,6 @@ class MyLoginView(LoginView):
        form = UserLogInForm()
        return render(request, 'login.html', {'form': form})
 
-
     def post(self, request):
         login_form = UserLogInForm(request.POST)
         if login_form.is_valid():
@@ -106,18 +105,15 @@ class MyLoginView(LoginView):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/mycompany/')
+                return redirect('/')
             else:
-                return HttpResponse('Неверный логин или пароль')
-
-
-
+                return HttpResponse('<h2>Упс!</h2><p><h4>Неверный логин или пароль</h4></p>')
 
 class LogoutView(View):
 
     def get(self, request):
         logout(request)
-        return render(request, 'index.html')
+        return redirect('/')
 
 
 class VacancySendView(View):
@@ -133,8 +129,15 @@ class MyCompanyView(View):
         Если  есть – он сразу же переходит к его редактированию!'''
 
     def get(self, request):
+        if request.user.is_authenticated:
+            username = request.user.username
+            user = User.objects.filter(username=username).first()
+            user_company = Company.objects.filter(owner=user).first()
+            if user_company:
+                context = {'user': user, 'user_company': user_company}
+                return render(request, 'company-edit.html', context=context)
 
-        return render(request, 'company-create.html')
+            return render(request, 'company-create.html')
 
 
 class MyCompanyVacanciesView(View):

@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
+
+{% block container %}
 
 <head>
   <meta charset="UTF-8">
@@ -15,44 +16,7 @@
 </head>
 
 <body>
-  < headerclass="container mt-3">
-    < navclass="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand mr-4 font-weight-bold" href="#">Джуманджи</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav col-10">
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Вакансии</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Компании</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">О проекте</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                Иван Топорыжкин
-              </button>
-              <div class="dropdown-menu dropdown-menu-right mt-3">
-                <a href="#" class="dropdown-item py-2">Профиль</a>
-                <a href="#" class="dropdown-item py-2">Резюме</a>
-                <a href="#" class="dropdown-item py-2">Компания</a>
-                <a href="#" class="dropdown-item py-2">Выйти</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+  {% include 'menu.html' %}
 
   <main class="container mt-3 pb-5">
     <div class="row mt-5">
@@ -79,7 +43,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyName">Название компании</label>
-                      <input class="form-control" type="text" value="Staffing Smarter" id="companyName">
+                      <input class="form-control" type="text" value="{{ user_company.name }}" id="companyName">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
@@ -105,19 +69,20 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyTeam">Количество человек в компании</label>
-                      <input class="form-control" type="text" value="10-15" id="companyTeam">
+                      <input class="form-control" type="text" value="{{ user_company.employee_count}}" id="companyTeam">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyLocation">География</label>
-                      <input class="form-control" type="text" value="Рязань" id="companyLocation">
+                      <input class="form-control" type="text" value="{{ user_company.location }}" id="companyLocation">
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
                   <label class="mb-2 text-dark" for="companyInfo">Информация о&nbsp;компании</label>
-                  <textarea class="form-control" rows="4" id="companyInfo" style="color:#000;">Для тех, кто желает работать в&nbsp;комфортном офисе,&nbsp;&mdash; у&nbsp;нас их&nbsp;целых три. Исторически так сложилось, что руководство и&nbsp;менеджерский состав располагается в&nbsp;Москве (обусловлено близостью заказчиков), центр разработки&nbsp;&mdash; в&nbsp;Ульяновске, в&nbsp;т.&nbsp;ч. школа молодых разработчиков и&nbsp;QA-центр&nbsp;&mdash; в&nbsp;Казани.</textarea>
+                  <textarea class="form-control" rows="4" id="companyInfo" style="color:#000;">{{ user_company.description }}
+                  </textarea>
                 </div>
                 <div class="form-group">
                   <input type="submit" class="btn btn-info" value="Сохранить">
@@ -141,4 +106,5 @@
           integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
           crossorigin="anonymous"></script>
 </body>
-</html>
+
+{% endblock %}
