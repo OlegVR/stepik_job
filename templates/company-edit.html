@@ -38,12 +38,14 @@
               <p class="alert alert-info" role="alert">
                 Информация о компании обновлена
               </p>
-              <form action="/echo">
+              <form method="POST" action="{% url 'mycompany' %}">
+                {% csrf_token %}
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyName">Название компании</label>
-                      <input class="form-control" type="text" value="{{ user_company.name }}" id="companyName">
+                      <input class="form-control" type="text" value="{% if user_company %}
+                      {{ user_company.name }} {% endif %}" name="name" id="name">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
@@ -51,14 +53,15 @@
                       <label class="mb-2 text-dark" for="companyLogo">Логотип</label>
                       <div class="row align-items-center">
                         <div class="col-6">
-                          <img src="https://place-hold.it/120x40" alt="" style="max-width: 120px;height: auto;">
+                          <img src="{% if user_company.logo %} {{ user_company.logo.value.url }} {% endif %}"
+                               alt="" style="max-width; 20px;height: auto;">
                         </div>
                         <div class="col-6" style="position: relative;">
                           <div class="input-group-prepend" style="position: absolute; top: 0;right: 15px;">
                             <span class="btn btn-info px-4">Загрузить</span>
                           </div>
                           <div class="custom-file" style="">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01">
+                            <input type="file" class="custom-file-input" name="logo" id="logo">
                           </div>
                         </div>
                       </div>
@@ -69,19 +72,23 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyTeam">Количество человек в компании</label>
-                      <input class="form-control" type="text" value="{{ user_company.employee_count}}" id="companyTeam">
+                      <input class="form-control" type="text" value="{% if user_company.employee_count %}
+                      {{ user_company.employee_count}} {% endif %}" name="employee_count" id="employee_count">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyLocation">География</label>
-                      <input class="form-control" type="text" value="{{ user_company.location }}" id="companyLocation">
+                      <input class="form-control" type="text" value="{% if user_company.location %}
+                      {{ user_company.location }} {% endif %}" name="location" id="location">
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
                   <label class="mb-2 text-dark" for="companyInfo">Информация о&nbsp;компании</label>
-                  <textarea class="form-control" rows="4" id="companyInfo" style="color:#000;">{{ user_company.description }}
+                  <textarea class="form-control" rows="4"  name="description" id="description" style="color:#000;">
+                    {% if user_company.description %}
+                    {{ user_company.description }} {% endif %}
                   </textarea>
                 </div>
                 <div class="form-group">

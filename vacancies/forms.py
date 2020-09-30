@@ -26,3 +26,10 @@ class UserLogInForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Войти'))
 
+
+class UserCompanyForm(forms.Form):
+    name = forms.CharField(max_length=56)
+    employee_count = forms.IntegerField()
+    logo = forms.ImageField()
+    location = forms.CharField(max_length=90)
+    description = forms.CharField(min_length=10, max_length=600)

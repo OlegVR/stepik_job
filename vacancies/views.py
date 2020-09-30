@@ -7,7 +7,7 @@ from django.views import View
 from django.http import Http404, HttpResponse
 from django.views.generic import CreateView
 
-from vacancies.forms import UserRegistrationForm, UserLogInForm
+from vacancies.forms import UserRegistrationForm, UserLogInForm, UserCompanyForm
 from vacancies.models import Specialty, Vacancy, Company, User
 
 
@@ -129,15 +129,26 @@ class MyCompanyView(View):
         Если  есть – он сразу же переходит к его редактированию!'''
 
     def get(self, request):
+        form = UserCompanyForm
         if request.user.is_authenticated:
             username = request.user.username
             user = User.objects.filter(username=username).first()
             user_company = Company.objects.filter(owner=user).first()
             if user_company:
-                context = {'user': user, 'user_company': user_company}
+                context = {'user': user, 'user_company': user_company, 'form': form}
                 return render(request, 'company-edit.html', context=context)
 
-            return render(request, 'company-create.html')
+            return redirect('noncompany')
+
+    def post(self, request):
+        form = UserCompanyForm(request.POST)
+        if form.is_valid():
+            print(form.description)
+
+
+class NonCompanyView(View):
+    def get(self, request):
+        return render(request, 'company-create.html')
 
 
 class MyCompanyVacanciesView(View):
