@@ -148,7 +148,12 @@ class MyCompanyView(View):
 
 class NonCompanyView(View):
     def get(self, request):
-        return render(request, 'company-create.html')
+        return render(request, 'company-edit.html')
+
+    def post(self, request):
+        form = UserCompanyForm(request.POST)
+        if form.is_valid():
+            print(form.description)
 
 
 class MyCompanyVacanciesView(View):
