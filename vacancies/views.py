@@ -83,9 +83,8 @@ class RegisterView(CreateView):
         register_form = UserRegistrationForm(request.POST)
         if register_form.is_valid():
             data = register_form.cleaned_data
-            user = User.objects.create_user(first_name=data['name'], username=data['login'],
-                                            last_name=data['surname'], password=data['password'])
-            user.save()
+            User.objects.create_user(first_name=data['name'], username=data['login'],
+                                     last_name=data['surname'], password=data['password'])
             return redirect('/')
         else:
             return HttpResponse("Некорректно заполнена форма регистрации")
@@ -109,6 +108,7 @@ class MyLoginView(LoginView):
             else:
                 return HttpResponse('<h2>Упс!</h2><p><h4>Неверный логин или пароль</h4></p>')
 
+
 class LogoutView(View):
 
     def get(self, request):
@@ -119,7 +119,6 @@ class LogoutView(View):
 class VacancySendView(View):
 
     def get(self, request, id):
-
         return render(request, 'sent.html')
 
 
@@ -138,22 +137,29 @@ class MyCompanyView(View):
                 context = {'user': user, 'user_company': user_company, 'form': form}
                 return render(request, 'company-edit.html', context=context)
 
-            return redirect('noncompany')
+            return render(request, 'company-create.html')
 
     def post(self, request):
         form = UserCompanyForm(request.POST)
         if form.is_valid():
-            print(form.description)
+            data = form.cleaned_data
+            username = request.user.username
+            user = User.objects.filter(username=username).first()
+            Company.objects.create(
+                name=data['name'], location=data['location'],
+                logo=data['logo'], description=data['description'],
+                empoloyee_count=data['employee_count'], owner=user
+            )
+            return redirect('mycompany')
+
+        else:
+
+            return HttpResponse('<h3>Вы неправильно заполнили форму. Попробуйте заново.</h3>')
 
 
 class NonCompanyView(View):
     def get(self, request):
         return render(request, 'company-edit.html')
-
-    def post(self, request):
-        form = UserCompanyForm(request.POST)
-        if form.is_valid():
-            print(form.description)
 
 
 class MyCompanyVacanciesView(View):
