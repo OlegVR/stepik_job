@@ -2,6 +2,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+from vacancies.models import Company
+
 
 class UserRegistrationForm(forms.Form):
     login = forms.CharField(min_length=3, max_length=30, label= 'Логин')
@@ -27,9 +29,14 @@ class UserLogInForm(forms.Form):
         self.helper.add_input(Submit('submit', 'Войти'))
 
 
-class UserCompanyForm(forms.Form):
-    name = forms.CharField(max_length=56)
-    employee_count = forms.IntegerField()
-    logo = forms.ImageField()
-    location = forms.CharField(max_length=90)
-    description = forms.CharField(min_length=10, max_length=600)
+class UserCompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+
+        fields = (
+            'name',
+            'location',
+            'logo',
+            'description',
+            'employee_count'
+        )

@@ -6,11 +6,11 @@ from stepik_job.settings import MEDIA_COMPANY_IMAGE_DIR, MEDIA_SPECIALITY_IMAGE_
 
 class Company(models.Model):
     name = models.CharField(max_length=120)
-    location = models.CharField(max_length=70)
-    logo = models.ImageField(upload_to=MEDIA_COMPANY_IMAGE_DIR)
-    description = models.CharField(max_length=455)
-    employee_count = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
+    location = models.CharField(max_length=70, blank=True, null=True)
+    logo = models.ImageField(upload_to=MEDIA_COMPANY_IMAGE_DIR, blank=True, null=True)
+    description = models.CharField(max_length=455, blank=True, null=True)
+    employee_count = models.IntegerField(blank=True, null=True)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Specialty(models.Model):

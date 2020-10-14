@@ -142,14 +142,13 @@ class MyCompanyView(View):
     def post(self, request):
         form = UserCompanyForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
             username = request.user.username
             user = User.objects.filter(username=username).first()
-            Company.objects.create(
-                name=data['name'], location=data['location'],
-                logo=data['logo'], description=data['description'],
-                empoloyee_count=data['employee_count'], owner=user
-            )
+            company = Company.objects.filter(owner=user)
+            company = form.save()
+            company.owner = request.user
+            company.save()
+
             return redirect('mycompany')
 
         else:

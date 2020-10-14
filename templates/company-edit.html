@@ -43,14 +43,14 @@
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="companyName">Название компании</label>
+                      <label class="mb-2 text-dark" for="name">Название компании</label>
                       <input class="form-control" type="text" value="{% if user_company %}
                       {{ user_company.name }} {% endif %}" name="name" id="name">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
-                      <label class="mb-2 text-dark" for="companyLogo">Логотип</label>
+                      <label class="mb-2 text-dark" for="logo">Логотип</label>
                       <div class="row align-items-center">
                         <div class="col-6">
                           <img src="{% if user_company.logo %} {{ user_company.logo.value.url }} {% endif %}"
@@ -71,21 +71,21 @@
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="companyTeam">Количество человек в компании</label>
+                      <label class="mb-2 text-dark" for="employee_count">Количество человек в компании</label>
                       <input class="form-control" type="text" value="{% if user_company.employee_count %}
                       {{ user_company.employee_count}} {% endif %}" name="employee_count" id="employee_count">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="companyLocation">География</label>
+                      <label class="mb-2 text-dark" for="location">География</label>
                       <input class="form-control" type="text" value="{% if user_company.location %}
                       {{ user_company.location }} {% endif %}" name="location" id="location">
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
-                  <label class="mb-2 text-dark" for="companyInfo">Информация о&nbsp;компании</label>
+                  <label class="mb-2 text-dark" for="description">Информация о&nbsp;компании</label>
                   <textarea class="form-control" rows="4"  name="description" id="description" style="color:#000;">
                     {% if user_company.description %}
                     {{ user_company.description }} {% endif %}
